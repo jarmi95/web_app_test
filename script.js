@@ -1,6 +1,6 @@
-// Obtener los datos de la API de CoinGecko para los últimos 7 días
-async function fetchBitcoinData() {
-    const response = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=7');
+// Función para obtener los datos de la API de CoinGecko
+async function fetchBitcoinData(days) {
+    const response = await fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=${days}`);
     const data = await response.json();
 
     // Extraer las fechas y los precios
@@ -29,7 +29,7 @@ function createOrUpdateChart(labels, data) {
         data: {
             labels: labels,
             datasets: [{
-                label: 'Precio de Bitcoin (USD) - Últimos 7 días',
+                label: 'Precio de Bitcoin (USD)',
                 data: data,
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -53,7 +53,12 @@ function createOrUpdateChart(labels, data) {
     });
 }
 
-// Llama a la función al cargar la página
+// Función para actualizar el gráfico con un periodo de tiempo específico
+function updateChart(days) {
+    fetchBitcoinData(days);
+}
+
+// Llama a la función con 7 días como valor inicial
 window.addEventListener('load', () => {
-    fetchBitcoinData();
+    updateChart(7); // Por defecto, muestra los últimos 7 días
 });
