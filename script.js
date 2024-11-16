@@ -53,11 +53,17 @@ function createOrUpdateChart(labels, data) {
     });
 }
 
-// Redimensionar el canvas para que sea adaptativo
+// Ajustar el canvas para que mantenga proporciones adecuadas
 function resizeCanvas() {
     const canvas = document.getElementById('btcChart');
-    canvas.width = canvas.parentElement.offsetWidth;
-    canvas.height = canvas.parentElement.offsetWidth * 0.6; // Proporción 16:9
+    const container = canvas.parentElement;
+
+    // Ajustar dimensiones del canvas para un diseño optimizado
+    canvas.width = container.offsetWidth;
+
+    // Establecer altura proporcional a la longitud vertical de la pantalla (máximo 80% del viewport)
+    const maxHeight = Math.min(window.innerHeight * 0.8, 600); // Límite de 600px para pantallas grandes
+    canvas.height = Math.max(container.offsetWidth * 0.6, maxHeight); // Altura basada en proporción 16:9 o máxima longitud
 }
 
 // Llama a la función al cargar la página y redimensionar
@@ -68,5 +74,4 @@ window.addEventListener('load', () => {
 
 window.addEventListener('resize', () => {
     resizeCanvas();
-    fetchBitcoinData();
 });
