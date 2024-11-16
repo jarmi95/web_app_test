@@ -1,30 +1,40 @@
-// Obtener datos de Apple usando la API de Yahoo Finance
-async function getAppleData() {
-    const response = await fetch('https://query1.finance.yahoo.com/v7/finance/chart/AAPL?range=1mo&interval=1d');
+// Obtener los datos de la API de CoinGecko
+async function fetchBitcoinData() {
+    const response = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=30');
     const data = await response.json();
-
-    // Procesar datos
-    const timestamps = data.chart.result[0].timestamp;
-    const prices = data.chart.result[0].indicators.quote[0].close;
-
-    const dates = timestamps.map(ts => new Date(ts * 1000).toLocaleDateString());
     
+    // Extraer las fechas y los precios
+    const dates = data.prices.map(price => new Date(price[0]).toLocaleDateString());
+    const prices = data.prices.map(price => price[1]);
+
     // Crear el gráfico
-    const trace = {
-        x: dates,
-        y: prices,
-        mode: 'lines',
-        name: 'Precio de Cierre',
-    };
-
-    const layout = {
-        title: 'Gráfico de AAPL - Último Mes',
-        xaxis: { title: 'Fecha' },
-        yaxis: { title: 'Precio de Cierre (USD)' },
-    };
-
-    Plotly.newPlot('plot', [trace], layout);
+    createChart(dates, prices);
 }
 
-// Llamar a la función para generar el gráfico
-getAppleData();
+// Crear el gráfico de Bitcoin
+function createChart(labels, data) {
+    const ctx = document.getElementById('btcChart').getContext('2d');
+    const btcChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Precio de Bitcoin (USD)',
+                data: data,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: false
+                }
+            }
+        }
+    });
+}
+
+// Llamar la función para obtener los datos al cargar la página
+fetchBitcoinData();
