@@ -1,6 +1,6 @@
 // Obtener los datos de la API de CoinGecko
 async function fetchBitcoinData() {
-    const response = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=30');
+    const response = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=7');
     const data = await response.json();
 
     // Extraer las fechas y los precios
