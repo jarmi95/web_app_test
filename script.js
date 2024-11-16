@@ -33,12 +33,13 @@ function createOrUpdateChart(labels, data) {
                 data: data,
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderWidth: 1
+                borderWidth: 2
             }]
         },
         options: {
-            responsive: true, // Hace que el gráfico se ajuste a la pantalla
-            maintainAspectRatio: false, // Permite ajustar la altura en móviles
+            responsive: true,
+            maintainAspectRatio: true, // Mantiene la relación de aspecto del canvas
+            aspectRatio: 4 / 3, // Relación 4:3
             scales: {
                 y: {
                     beginAtZero: false
@@ -46,14 +47,12 @@ function createOrUpdateChart(labels, data) {
             },
             plugins: {
                 legend: {
-                    position: 'top', // Cambia la posición para pantallas pequeñas
+                    position: 'top',
                 }
             }
         }
     });
 }
 
-// Llama a la función al cargar la página y redimensionar
-window.addEventListener('load', () => {
-    fetchBitcoinData();
-});
+// Llamar a la función para cargar datos y renderizar el gráfico
+window.addEventListener('load', fetchBitcoinData);
