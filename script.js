@@ -7,14 +7,24 @@ async function fetchBitcoinData() {
     const dates = data.prices.map(price => new Date(price[0]).toLocaleDateString());
     const prices = data.prices.map(price => price[1]);
 
-    // Crear el gráfico
-    createChart(dates, prices);
+    // Crear o actualizar el gráfico
+    createOrUpdateChart(dates, prices);
 }
 
-// Crear el gráfico de Bitcoin
-function createChart(labels, data) {
+// Variable para guardar la instancia del gráfico
+let btcChart;
+
+// Crear o actualizar el gráfico de Bitcoin
+function createOrUpdateChart(labels, data) {
     const ctx = document.getElementById('btcChart').getContext('2d');
-    const btcChart = new Chart(ctx, {
+
+    // Si el gráfico ya existe, destrúyelo antes de crear uno nuevo
+    if (btcChart) {
+        btcChart.destroy();
+    }
+
+    // Crear el gráfico
+    btcChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
@@ -27,14 +37,36 @@ function createChart(labels, data) {
             }]
         },
         options: {
+            responsive: true, // Hace que el gráfico se ajuste a la pantalla
+            maintainAspectRatio: false, // Permite ajustar la altura en móviles
             scales: {
                 y: {
                     beginAtZero: false
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top', // Cambia la posición para pantallas pequeñas
                 }
             }
         }
     });
 }
 
-// Llamar la función para obtener los datos al cargar la página
-fetchBitcoinData();
+// Redimensionar el canvas para que sea adaptativo
+function resizeCanvas() {
+    const canvas = document.getElementById('btcChart');
+    canvas.width = canvas.parentElement.offsetWidth;
+    canvas.height = canvas.parentElement.offsetWidth * 0.6; // Proporción 16:9
+}
+
+// Llama a la función al cargar la página y redimensionar
+window.addEventListener('load', () => {
+    resizeCanvas();
+    fetchBitcoinData();
+});
+
+window.addEventListener('resize', () => {
+    resizeCanvas();
+    fetchBitcoinData();
+});
