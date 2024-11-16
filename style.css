@@ -1,3 +1,4 @@
+/* Estilo general */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -9,25 +10,24 @@ body {
     background-color: #f4f4f4;
 }
 
+/* Contenedor adaptable */
 .container {
     width: 90%;
-    max-width: 800px;
+    max-width: 600px; /* Máximo ancho en pantallas grandes */
     height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    background: white;
     padding: 10px;
+    background: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 }
 
+/* Canvas adaptable */
 canvas {
     display: block;
-    width: 100%; /* Ajusta el ancho al contenedor */
-    max-width: 100%;
-    height: 400px; /* Tamaño fijo para evitar crecimientos descontrolados */
+    width: 100%;
+    max-width: 100%; /* Ajusta al ancho del contenedor */
+    height: 50vh; /* Usa 50% de la altura del viewport */
     max-height: 400px; /* Limita la altura máxima */
     box-sizing: border-box;
 }

@@ -1,4 +1,4 @@
-// Obtener los datos de la API de CoinGecko
+// Obtener los datos de la API de CoinGecko para los últimos 7 días
 async function fetchBitcoinData() {
     const response = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=7');
     const data = await response.json();
@@ -29,7 +29,7 @@ function createOrUpdateChart(labels, data) {
         data: {
             labels: labels,
             datasets: [{
-                label: 'Precio de Bitcoin (USD)',
+                label: 'Precio de Bitcoin (USD) - Últimos 7 días',
                 data: data,
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -37,16 +37,16 @@ function createOrUpdateChart(labels, data) {
             }]
         },
         options: {
-            responsive: true, // Hace que el gráfico se ajuste al contenedor
-            maintainAspectRatio: true, // Mantiene una proporción fija
+            responsive: true, // Gráfico responsivo
+            maintainAspectRatio: false, // Permite que el alto cambie dinámicamente
             scales: {
                 y: {
-                    beginAtZero: false
+                    beginAtZero: false // No empezar en cero, para ver cambios en el precio
                 }
             },
             plugins: {
                 legend: {
-                    position: 'top', // Cambia la posición para pantallas pequeñas
+                    position: 'top', // Ajusta la posición de la leyenda
                 }
             }
         }
