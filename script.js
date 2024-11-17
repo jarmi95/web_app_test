@@ -41,8 +41,10 @@ function createOrUpdateChart(labels, data) {
                 data: data,
                 borderColor: 'rgba(0, 123, 255, 1)', // Azul corporativo
                 backgroundColor: 'rgba(0, 123, 255, 0.1)', // Azul con transparencia
-                borderWidth: 2,
-                tension: 0.3 // Suaviza las líneas
+                borderWidth: 1.5,
+                tension: 0.3,
+                pointRadius: 2, 
+                pointHoverRadius: 5,
             }]
         },
         options: {
@@ -51,7 +53,7 @@ function createOrUpdateChart(labels, data) {
             scales: {
                 x: {
                     ticks: {
-                        maxTicksLimit: 5, // Limita etiquetas en el eje X para claridad
+                        maxTicksLimit: 10, // Limita etiquetas en el eje X para claridad
                         color: '#495057' // Color de las etiquetas
                     },
                     grid: {
@@ -60,7 +62,10 @@ function createOrUpdateChart(labels, data) {
                 },
                 y: {
                     ticks: {
-                        color: '#495057' // Color de las etiquetas
+                        color: '#495057', // Color de las etiquetas
+                        callback: function(value) {
+                            return `$${value.toFixed(2)}`;  // Añadir "USD $" a cada valor en el eje Y
+                        }
                     },
                     grid: {
                         color: 'rgba(108, 117, 125, 0.1)' // Líneas sutiles
