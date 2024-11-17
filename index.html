@@ -12,15 +12,14 @@
 </head>
 <body>
     <div class="container mt-5">
-        <header class="text-center mb-4">
-            <h2>Gráfico de Bitcoin</h2>
+        <header class="text-center mb-5">
+            <h2 class="title">Gráfico de Bitcoin</h2>
         </header>
-        <div class="d-flex justify-content-center mb-4">
+        <div class="d-flex justify-content-center mb-4 flex-wrap">
             <!-- Botones de selección de periodo -->
-            <button class="btn btn-primary mx-2" onclick="updateChart(7)" aria-label="Mostrar los últimos 7 días">Últimos 7 días</button>
-            <button class="btn btn-primary mx-2" onclick="updateChart(30)" aria-label="Mostrar los últimos 30 días">Últimos 30 días</button>
-            <button class="btn btn-primary mx-2" onclick="updateChart(90)" aria-label="Mostrar los últimos 90 días">Últimos 90 días</button>
-            <button class="btn btn-primary mx-2" onclick="updateChart(365)" aria-label="Mostrar el último año">Último año</button>
+            <button class="btn btn-period mx-2" onclick="updateChart(7)" aria-label="Mostrar los últimos 7 días">Últimos 7 días</button>
+            <button class="btn btn-period mx-2" onclick="updateChart(30)" aria-label="Mostrar los últimos 30 días">Últimos 30 días</button>
+            <button class="btn btn-period mx-2" onclick="updateChart(90)" aria-label="Mostrar los últimos 90 días">Últimos 90 días</button>
         </div>
         <!-- Contenedor para el gráfico -->
         <div class="chart-container" style="position: relative; width: 100%; height: 60vh;">
