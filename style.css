@@ -7,7 +7,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f8f9fa; /* Fondo claro */
+    background-color: #f4f4f4; /* Fondo neutro */
     color: #212529; /* Texto principal */
 }
 
@@ -17,111 +17,63 @@ body {
     max-width: 800px;
     padding: 20px;
     background: #ffffff; /* Fondo blanco */
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* Sombra más sutil y profesional */
     box-sizing: border-box;
+    border: 1px solid #dee2e6; /* Bordes claros para un diseño más serio */
 }
 
 /* Encabezado */
-header {
-    background-color: #343a40; /* Color gris oscuro */
-    color: #ffffff;
-    padding: 1rem 0;
-    text-align: center;
-    border-radius: 10px 10px 0 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-header h1 {
-    font-size: 2.5rem;
-    margin: 0;
-}
-
-header .lead {
-    font-size: 1.25rem;
-    margin-top: 0.5rem;
+.text-center h2 {
+    font-size: 2rem;
+    color: #343a40; /* Tono corporativo oscuro */
+    margin-bottom: 1rem;
+    font-weight: 500; /* Texto menos informal */
 }
 
 /* Controles y botones */
-.controls {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-button {
-    padding: 10px 15px;
-    background-color: #e7b382; /* Botón principal */
+.d-flex button {
+    padding: 10px 20px;
+    background-color: #007bff; /* Azul profesional */
     color: #ffffff;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-button:hover {
-    background-color: #d18b64; /* Botón en hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.d-flex button:hover {
+    background-color: #0056b3; /* Azul más oscuro */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Canvas para gráficos */
 canvas {
     display: block;
     width: 100%;
-    max-width: 100%;
-    height: 50vh; /* Altura adaptable */
-    max-height: 400px;
+    height: 60vh; /* Altura adaptable más prominente en móviles */
+    max-height: 500px;
     box-sizing: border-box;
-    border-radius: 10px; /* Bordes redondeados */
-}
-
-/* Tablas */
-.table {
-    width: 100%;
-    margin-bottom: 1rem;
-    color: #212529;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    table-layout: auto;
-}
-
-.table th {
-    font-weight: bold;
-    color: #343a40;
-    background-color: #e9ecef;
-    border-top: none;
-    text-align: center;
-}
-
-.table td {
-    padding: 0.5rem;
-    text-align: center;
-}
-
-/* Pie de página */
-footer {
-    background-color: #343a40;
-    color: #ffffff;
-    padding: 1rem;
-    text-align: center;
-    border-radius: 0 0 10px 10px;
+    border-radius: 8px; /* Bordes ligeramente redondeados */
+    border: 1px solid #dee2e6; /* Marco para darle estructura */
+    background-color: #f8f9fa; /* Fondo claro para contraste */
+    margin-top: 1rem;
 }
 
 /* Responsividad */
 @media (max-width: 768px) {
-    .controls {
+    .d-flex {
         flex-direction: column;
         gap: 10px;
     }
 
-    button {
+    .d-flex button {
         width: 100%; /* Botones de ancho completo */
     }
 
-    .form-row {
-        display: flex;
-        flex-direction: column;
+    canvas {
+        height: 70vh; /* Ajusta altura en pantallas más pequeñas */
+        max-height: none; /* Permite altura mayor en móviles */
     }
 }
