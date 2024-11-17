@@ -10,6 +10,16 @@ body {
     background-color: #f4f5f7; /* Fondo suave */
     color: #212529; /* Texto principal */
     text-align: center; /* Asegura que el contenido esté centrado */
+    flex-direction: column;
+}
+
+footer {
+    background-color: #212529; /* Fondo oscuro */
+    color: #dcdfe1; /* Texto en color claro */
+    font-size: 0.9rem;
+    padding: 20px 0; /* Espaciado en el pie de página */
+    text-align: center;
+    width: 100%;
 }
 
 /* Contenedor principal */
@@ -42,7 +52,7 @@ body {
     background-color: #0056b3; /* Azul oscuro */
     color: #ffffff;
     border: none;
-    border-radius: 50px; /* Bordes redondeados */
+    border-radius: 5px; /* Bordes redondeados */
     cursor: pointer;
     font-size: 1rem;
     font-weight: bold;
