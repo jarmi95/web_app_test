@@ -1,18 +1,30 @@
-// Función para obtener los datos de la API de CoinGecko
-async function fetchBitcoinData(days) {
+// Función para obtener los datos de la API de Yahoo Finance o cualquier otra API para obtener precios históricos
+async function fetchData(ticker, days) {
     try {
-        const response = await fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=${days}`);
+        // Construir la URL en función del ticker y los días solicitados
+        let url;
+        
+        // Usaremos Yahoo Finance para obtener precios históricos de acciones y otros activos
+        // Asumimos que el ticker puede ser una acción (ejemplo: AAPL) o criptomoneda (ejemplo: BTC)
+        url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?range=${days}d&interval=1d`;
+
+        const response = await fetch(url);
         if (!response.ok) {
             throw new Error("Error al obtener los datos de la API");
         }
         const data = await response.json();
 
-        // Extraer las fechas y los precios
-        const dates = data.prices.map(price => new Date(price[0]).toLocaleDateString());
-        const prices = data.prices.map(price => price[1]);
+        // Verificamos si los datos de la respuesta son correctos
+        if (data.chart && data.chart.result) {
+            const timestamps = data.chart.result[0].timestamp;
+            const prices = data.chart.result[0].indicators.quote[0].close;
+            const dates = timestamps.map(ts => new Date(ts * 1000).toLocaleDateString()); // Convertir timestamps a fechas
 
-        // Crear o actualizar el gráfico
-        createOrUpdateChart(dates, prices);
+            createOrUpdateChart(dates, prices, ticker);
+        } else {
+            throw new Error("No se encontraron datos válidos para este ticker.");
+        }
+
     } catch (error) {
         console.error("Error al obtener los datos:", error);
         alert("Hubo un problema al cargar los datos. Por favor, inténtalo de nuevo más tarde.");
@@ -20,24 +32,24 @@ async function fetchBitcoinData(days) {
 }
 
 // Variable para guardar la instancia del gráfico
-let btcChart;
+let chartInstance;
 
-// Crear o actualizar el gráfico de Bitcoin
-function createOrUpdateChart(labels, data) {
+// Crear o actualizar el gráfico con los datos recibidos
+function createOrUpdateChart(labels, data, ticker) {
     const ctx = document.getElementById('btcChart').getContext('2d');
 
     // Si el gráfico ya existe, destrúyelo antes de crear uno nuevo
-    if (btcChart) {
-        btcChart.destroy();
+    if (chartInstance) {
+        chartInstance.destroy();
     }
 
     // Crear el gráfico
-    btcChart = new Chart(ctx, {
+    chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
             datasets: [{
-                label: 'Precio de Bitcoin (USD)',
+                label: `Precio de ${ticker.toUpperCase()}`,
                 data: data,
                 borderColor: 'rgba(0, 123, 255, 1)', // Azul corporativo
                 backgroundColor: 'rgba(0, 123, 255, 0.1)', // Azul con transparencia
@@ -93,11 +105,13 @@ function createOrUpdateChart(labels, data) {
 }
 
 // Función para actualizar el gráfico con un periodo de tiempo específico
-function updateChart(days) {
-    fetchBitcoinData(days);
+function updateChart(ticker, days) {
+    fetchData(ticker, days);
 }
 
-// Llama a la función con 7 días como valor inicial
+// Leer el parámetro 'ticker' de la URL y actualizar el gráfico con el ticker correcto
 window.addEventListener('load', () => {
-    updateChart(7); // Por defecto, muestra los últimos 7 días
+    const urlParams = new URLSearchParams(window.location.search);
+    const ticker = urlParams.get('ticker') || 'AAPL'; // Si no se encuentra 'ticker', por defecto es 'AAPL' (Apple)
+    updateChart(ticker, 7); // Por defecto, muestra los últimos 7 días
 });
