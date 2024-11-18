@@ -6,13 +6,15 @@ async function fetchData(ticker, days) {
         
         // Usaremos Yahoo Finance para obtener precios históricos de acciones y otros activos
         // Asumimos que el ticker puede ser una acción (ejemplo: AAPL) o criptomoneda (ejemplo: BTC)
-        url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?range=${days}d&interval=1d`;
+        url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}`;
+        console.log(`Fetching URL: ${url}`); // Verificar la URL construida
 
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error("Error al obtener los datos de la API");
         }
         const data = await response.json();
+        console.log(`Fetched data:`, data); 
 
         // Verificamos si los datos de la respuesta son correctos
         if (data.chart && data.chart.result) {
