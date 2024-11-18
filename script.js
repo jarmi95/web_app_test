@@ -20,6 +20,9 @@ async function fetchData(ticker, days) {
             const prices = data.chart.result[0].indicators.quote[0].close;
             const dates = timestamps.map(ts => new Date(ts * 1000).toLocaleDateString()); // Convertir timestamps a fechas
 
+            // Actualizar el título con el ticker de la acción o criptomoneda
+            document.getElementById('chartTitle').textContent = `Gráfico de ${ticker.toUpperCase()}`;
+
             createOrUpdateChart(dates, prices, ticker);
         } else {
             throw new Error("No se encontraron datos válidos para este ticker.");
@@ -113,5 +116,9 @@ function updateChart(ticker, days) {
 window.addEventListener('load', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const ticker = urlParams.get('ticker') || 'AAPL'; // Si no se encuentra 'ticker', por defecto es 'AAPL' (Apple)
+    
+    // Actualizar el título con el ticker de la URL
+    document.getElementById('chartTitle').textContent = `Gráfico de ${ticker.toUpperCase()}`;
+
     updateChart(ticker, 7); // Por defecto, muestra los últimos 7 días
 });
