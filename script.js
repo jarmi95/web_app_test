@@ -1,15 +1,13 @@
-// Función para obtener los datos de la API de Yahoo Finance o cualquier otra API para obtener precios históricos
+// Función para obtener los datos de la API de Alpha Vantage
 async function fetchData(ticker, days) {
     try {
-        // Construir la URL en función del ticker y los días solicitados
-        let url;
+        // Reemplaza con tu clave de API de Alpha Vantage
+        const apiKey = 'UICGYCMY2MBB2IIC'; // Obtén tu clave desde https://www.alphavantage.co/support/#api-key
+        const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${ticker}&outputsize=compact&apikey=${apiKey}`;
         
-        // Usaremos Yahoo Finance para obtener precios históricos de acciones y otros activos
-        // Asumimos que el ticker puede ser una acción (ejemplo: AAPL) o criptomoneda (ejemplo: BTC)
-        url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}`;
-        console.log(`Fetching URL: ${url}`); // Verificar la URL construida
+        console.log(`Fetching URL: ${apiUrl}`); // Verificar la URL construida
 
-        const response = await fetch(url);
+        const response = await fetch(apiUrl);
         if (!response.ok) {
             throw new Error("Error al obtener los datos de la API");
         }
@@ -17,10 +15,10 @@ async function fetchData(ticker, days) {
         console.log(`Fetched data:`, data); 
 
         // Verificamos si los datos de la respuesta son correctos
-        if (data.chart && data.chart.result) {
-            const timestamps = data.chart.result[0].timestamp;
-            const prices = data.chart.result[0].indicators.quote[0].close;
-            const dates = timestamps.map(ts => new Date(ts * 1000).toLocaleDateString()); // Convertir timestamps a fechas
+        if (data['Time Series (Daily)']) {
+            const timeSeries = data['Time Series (Daily)'];
+            const dates = Object.keys(timeSeries).slice(0, days); // Obtener los últimos 'days' días
+            const prices = dates.map(date => timeSeries[date]['4. close']); // Obtener los precios de cierre
 
             // Actualizar el título con el ticker de la acción o criptomoneda
             document.getElementById('chartTitle').textContent = `Gráfico de ${ticker.toUpperCase()}`;
@@ -110,9 +108,13 @@ function createOrUpdateChart(labels, data, ticker) {
 }
 
 // Función para actualizar el gráfico con un periodo de tiempo específico
-function updateChart(ticker, days) {
+// Función para actualizar el gráfico con un periodo de tiempo específico
+function updateChart(days) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const ticker = urlParams.get('ticker') || 'AAPL'; // Si no se encuentra 'ticker', por defecto es 'AAPL' (Apple)
     fetchData(ticker, days);
 }
+
 
 // Leer el parámetro 'ticker' de la URL y actualizar el gráfico con el ticker correcto
 window.addEventListener('load', () => {
