@@ -108,13 +108,11 @@ function createOrUpdateChart(labels, data, ticker) {
 }
 
 // Función para actualizar el gráfico con un periodo de tiempo específico
-// Función para actualizar el gráfico con un periodo de tiempo específico
 function updateChart(days) {
     const urlParams = new URLSearchParams(window.location.search);
     const ticker = urlParams.get('ticker') || 'AAPL'; // Si no se encuentra 'ticker', por defecto es 'AAPL' (Apple)
-    fetchData(ticker, days);
+    fetchData(ticker, days); // Llamada a fetchData con el ticker y los días seleccionados
 }
-
 
 // Leer el parámetro 'ticker' de la URL y actualizar el gráfico con el ticker correcto
 window.addEventListener('load', () => {
@@ -124,5 +122,6 @@ window.addEventListener('load', () => {
     // Actualizar el título con el ticker de la URL
     document.getElementById('chartTitle').textContent = `Gráfico de ${ticker.toUpperCase()}`;
 
-    updateChart(ticker, 7); // Por defecto, muestra los últimos 7 días
+    // Llamar a la función updateChart para mostrar el gráfico de los últimos 7 días por defecto
+    updateChart(7); // Aquí pasas los últimos 7 días como valor predeterminado
 });
